@@ -1,4 +1,4 @@
-# Face_id_meta
+# Face_id_meta_learning
 
 Siamese neural network with contrastive loss.
 
