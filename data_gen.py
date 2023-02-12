@@ -372,14 +372,7 @@ class TF_L2Dist(layers.Layer):
 def make_siamese_net():
     input1=layers.Input((224, 224, 3))
     input2=layers.Input((224, 224, 3))
-    # embedding=make_embedding()#same embedding on both heads
-    embedding =tf.keras.applications.VGG19(
-    include_top=True,
-    weights="imagenet",
-    input_tensor=None,
-    pooling=None,
-    classifier_activation=None,
-)
+    embedding=make_embedding()#same embedding on both heads
 
     
     siamese_layer=L1Dist_mod()
