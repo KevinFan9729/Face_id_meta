@@ -1,0 +1,22 @@
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) libfabric/1.10.1     2) openmpi/4.0.3     3) ucx/1.8.0
+
+/scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/google/protobuf/internal/api_implementation.py:110: UserWarning: Selected implementation cpp is not available.
+  warnings.warn(
+Traceback (most recent call last):
+  File "./main.py", line 5, in <module>
+    import modules.datagenerator as dtgen
+  File "/scratch/endeavor/python_script_main/modules/datagenerator.py", line 3, in <module>
+    from tensorflow import keras
+  File "/scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/tensorflow/__init__.py", line 41, in <module>
+    from tensorflow.python.tools import module_util as _module_util
+  File "/scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/tensorflow/python/__init__.py", line 41, in <module>
+    from tensorflow.python.eager import context
+  File "/scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/context.py", line 33, in <module>
+    from tensorflow.core.framework import function_pb2
+  File "/scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/tensorflow/core/framework/function_pb2.py", line 7, in <module>
+    from google.protobuf import descriptor as _descriptor
+  File "/scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/google/protobuf/descriptor.py", line 51, in <module>
+    from google.protobuf.pyext import _message
+ImportError: /scratch/endeavor/python_script_main/tensorflow/lib/python3.8/site-packages/google/protobuf/pyext/_message.cpython-38-x86_64-linux-gnu.so: undefined symbol: _ZN4absl12lts_2023012512log_internal9kCharNullE
