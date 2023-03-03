@@ -11,7 +11,7 @@ from keras.callbacks import LearningRateScheduler
 from tensorflow import keras
 
 home=os.path.abspath(os.getcwd())
-data_path=os.path.join(home, 'data')
+data_path=os.path.join(home, 'data_train_valset')
 
 #global data
 pairs=[]
@@ -22,9 +22,15 @@ for file in os.listdir(data_path):
 
 util.make_pairs(data_path, pairs, classes)
 
-partition = {'train': np.arange(math.floor(len(pairs)*.6)),
-             'validation': np.arange(math.floor(len(pairs)*.6),math.floor(len(pairs)*.8)),
-             'test': np.arange(math.floor(len(pairs)*.8), math.floor(len(pairs)))}
+# partition = {'train': np.arange(math.floor(len(pairs)*.6)),
+#              'validation': np.arange(math.floor(len(pairs)*.6),math.floor(len(pairs)*.8)),
+#              'test': np.arange(math.floor(len(pairs)*.8), math.floor(len(pairs)))}
+
+partition = {'train': np.arange(math.floor(len(pairs)*.75)),
+             'validation': np.arange(math.floor(len(pairs)*.75),math.floor(len(pairs)))}
+
+print(f"Number of Train Pairs: {len(partition['train'])}")
+print(f"Number of Validation Pairs: {len(partition['validation'])}")
 
 # Generators
 train_generator = dtgen.DataGenerator(partition['train'], pairs, batch_size=16)

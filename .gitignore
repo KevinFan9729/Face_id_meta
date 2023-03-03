@@ -1,2 +1,4 @@
 data_all/
-
+data_train_valset/
+data_testset/
+canada_compute_results/small_data_3hrs/checkpoints/
