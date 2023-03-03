@@ -1,0 +1,4 @@
+pip install tensorflow == 2.7.1
+pip install transformers 
+pip install opencv-python
+pip install numpy == 1.21

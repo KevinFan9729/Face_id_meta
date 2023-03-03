@@ -8,6 +8,7 @@ import modules.loss as loss
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
 from keras.callbacks import LearningRateScheduler
+from tensorflow import keras
 
 home=os.path.abspath(os.getcwd())
 data_path=os.path.join(home, 'data')

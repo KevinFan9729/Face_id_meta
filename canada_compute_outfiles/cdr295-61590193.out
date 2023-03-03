@@ -1,0 +1,88 @@
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) libfabric/1.10.1     2) openmpi/4.0.3     3) ucx/1.8.0
+
+2023-03-02 22:47:15.303970: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-03-02 22:47:58.770732: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2023-03-02 22:47:58.778111: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2023-03-02 22:47:58.778201: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2023-03-02 22:48:54.390196: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-03-02 22:49:13.765406: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1613] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 11306 MB memory:  -> device: 0, name: Tesla P100-PCIE-12GB, pci bus id: 0000:82:00.0, compute capability: 6.0
+2023-03-02 22:49:20.070895: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:428] Loaded cuDNN version 8200
+2023-03-02 22:49:20.669776: W tensorflow/compiler/xla/stream_executor/gpu/asm_compiler.cc:115] *** WARNING *** You are using ptxas 11.0.194, which is older than 11.1. ptxas before 11.1 is known to miscompile XLA code, leading to incorrect results or invalid-address errors.
+
+You may not need to update to CUDA 11.1; cherry-picking the ptxas binary is often sufficient.
+All model checkpoint layers were used when initializing TFViTModel.
+
+All the layers of TFViTModel were initialized from the model checkpoint at google/vit-base-patch16-224-in21k.
+If your task is similar to the task the model of the checkpoint was trained on, you can already use TFViTModel for predictions without further training.
+Model: "siamese_network"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ pixel_values1 (InputLayer)     [(None, 224, 224, 3  0           []                               
+                                )]                                                                
+                                                                                                  
+ pixel_values2 (InputLayer)     [(None, 224, 224, 3  0           []                               
+                                )]                                                                
+                                                                                                  
+ permute (Permute)              (None, 3, 224, 224)  0           ['pixel_values1[0][0]']          
+                                                                                                  
+ permute_1 (Permute)            (None, 3, 224, 224)  0           ['pixel_values2[0][0]']          
+                                                                                                  
+ vit (TFViTMainLayer)           TFBaseModelOutputWi  86389248    ['permute[0][0]',                
+                                thPooling(last_hidd               'permute_1[0][0]']              
+                                en_state=(None, 197                                               
+                                , 768),                                                           
+                                 pooler_output=(Non                                               
+                                e, 768),                                                          
+                                 hidden_states=None                                               
+                                , attentions=None)                                                
+                                                                                                  
+ l1_dist (L1Dist)               (None, 197, 768)     0           ['vit[0][0]',                    
+                                                                  'vit[1][0]']                    
+                                                                                                  
+ outputs (Dense)                (None, 197, 1)       769         ['l1_dist[0][0]']                
+                                                                                                  
+==================================================================================================
+Total params: 86,390,017
+Trainable params: 86,390,017
+Non-trainable params: 0
+__________________________________________________________________________________________________
+Epoch 1/500
+WARNING:tensorflow:Gradients do not exist for variables ['tf_vi_t_model/vit/pooler/dense/kernel:0', 'tf_vi_t_model/vit/pooler/dense/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables ['tf_vi_t_model/vit/pooler/dense/kernel:0', 'tf_vi_t_model/vit/pooler/dense/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables ['tf_vi_t_model/vit/pooler/dense/kernel:0', 'tf_vi_t_model/vit/pooler/dense/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables ['tf_vi_t_model/vit/pooler/dense/kernel:0', 'tf_vi_t_model/vit/pooler/dense/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+2023-03-02 22:50:55.888270: I tensorflow/compiler/xla/service/service.cc:173] XLA service 0x2b08d4005110 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2023-03-02 22:50:55.971810: I tensorflow/compiler/xla/service/service.cc:181]   StreamExecutor device (0): Tesla P100-PCIE-12GB, Compute Capability 6.0
+2023-03-02 22:50:59.965705: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:268] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2023-03-02 22:51:15.018903: W tensorflow/compiler/xla/stream_executor/gpu/asm_compiler.cc:115] *** WARNING *** You are using ptxas 11.0.194, which is older than 11.1. ptxas before 11.1 is known to miscompile XLA code, leading to incorrect results or invalid-address errors.
+
+You may not need to update to CUDA 11.1; cherry-picking the ptxas binary is often sufficient.
+2023-03-02 22:51:15.169343: I tensorflow/compiler/jit/xla_compilation_cache.cc:477] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2023-03-02 22:51:15.602610: W tensorflow/compiler/xla/stream_executor/gpu/asm_compiler.cc:115] *** WARNING *** You are using ptxas 11.0.194, which is older than 11.1. ptxas before 11.1 is known to miscompile XLA code, leading to incorrect results or invalid-address errors.
+
+You may not need to update to CUDA 11.1; cherry-picking the ptxas binary is often sufficient.
+2023-03-02 22:51:16.542186: W tensorflow/compiler/xla/stream_executor/gpu/asm_compiler.cc:115] *** WARNING *** You are using ptxas 11.0.194, which is older than 11.1. ptxas before 11.1 is known to miscompile XLA code, leading to incorrect results or invalid-address errors.
+
+You may not need to update to CUDA 11.1; cherry-picking the ptxas binary is often sufficient.
+2023-03-02 22:51:16.825881: W tensorflow/compiler/xla/stream_executor/gpu/asm_compiler.cc:115] *** WARNING *** You are using ptxas 11.0.194, which is older than 11.1. ptxas before 11.1 is known to miscompile XLA code, leading to incorrect results or invalid-address errors.
+
+You may not need to update to CUDA 11.1; cherry-picking the ptxas binary is often sufficient.
+2023-03-02 22:51:40.049688: W tensorflow/compiler/xla/stream_executor/gpu/asm_compiler.cc:115] *** WARNING *** You are using ptxas 11.0.194, which is older than 11.1. ptxas before 11.1 is known to miscompile XLA code, leading to incorrect results or invalid-address errors.
+
+You may not need to update to CUDA 11.1; cherry-picking the ptxas binary is often sufficient.
+ 1/28 [>.............................] - ETA: 53:36 - loss: 0.2626 - accuracy: 0.3775 2/28 [=>............................] - ETA: 25s - loss: 0.2447 - accuracy: 0.6050   3/28 [==>...........................] - ETA: 28s - loss: 0.2503 - accuracy: 0.5502 4/28 [===>..........................] - ETA: 24s - loss: 0.2482 - accuracy: 0.5837 5/28 [====>.........................] - ETA: 23s - loss: 0.2404 - accuracy: 0.6296 6/28 [=====>........................] - ETA: 21s - loss: 0.2405 - accuracy: 0.6104 7/28 [======>.......................] - ETA: 20s - loss: 0.2379 - accuracy: 0.6135 8/28 [=======>......................] - ETA: 19s - loss: 0.2303 - accuracy: 0.6359 9/28 [========>.....................] - ETA: 17s - loss: 0.2320 - accuracy: 0.636510/28 [=========>....................] - ETA: 16s - loss: 0.2332 - accuracy: 0.635911/28 [==========>...................] - ETA: 15s - loss: 0.2341 - accuracy: 0.634912/28 [===========>..................] - ETA: 14s - loss: 0.2351 - accuracy: 0.623813/28 [============>.................] - ETA: 13s - loss: 0.2347 - accuracy: 0.623914/28 [==============>...............] - ETA: 12s - loss: 0.2345 - accuracy: 0.628415/28 [===============>..............] - ETA: 11s - loss: 0.2327 - accuracy: 0.628316/28 [================>.............] - ETA: 10s - loss: 0.2320 - accuracy: 0.636017/28 [=================>............] - ETA: 9s - loss: 0.2327 - accuracy: 0.6390 18/28 [==================>...........] - ETA: 8s - loss: 0.2301 - accuracy: 0.652119/28 [===================>..........] - ETA: 7s - loss: 0.2282 - accuracy: 0.647420/28 [====================>.........] - ETA: 6s - loss: 0.2281 - accuracy: 0.646621/28 [=====================>........] - ETA: 5s - loss: 0.2270 - accuracy: 0.649722/28 [======================>.......] - ETA: 5s - loss: 0.2269 - accuracy: 0.650023/28 [=======================>......] - ETA: 4s - loss: 0.2273 - accuracy: 0.651624/28 [========================>.....] - ETA: 3s - loss: 0.2291 - accuracy: 0.653125/28 [=========================>....] - ETA: 2s - loss: 0.2287 - accuracy: 0.653426/28 [==========================>...] - ETA: 1s - loss: 0.2282 - accuracy: 0.644227/28 [===========================>..] - ETA: 0s - loss: 0.2267 - accuracy: 0.652228/28 [==============================] - ETA: 0s - loss: 0.2242 - accuracy: 0.6606
+Epoch 1: val_accuracy improved from -inf to 0.64471, saving model to /scratch/endeavor/python_script_test/checkpoints
+WARNING:absl:Found untraced functions such as embeddings_layer_call_fn, embeddings_layer_call_and_return_conditional_losses, encoder_layer_call_fn, encoder_layer_call_and_return_conditional_losses, layernorm_layer_call_fn while saving (showing 5 of 425). These functions will not be directly callable after loading.
+Traceback (most recent call last):
+  File "./main.py", line 70, in <module>
+    history = siamese_network.fit(
+  File "/scratch/endeavor/python_script_test/tensorflow/lib/python3.8/site-packages/keras/utils/traceback_utils.py", line 70, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "./main.py", line 59, in on_epoch_end
+    print(keras.backend.eval(self.model.optimizer.lr))
+NameError: name 'keras' is not defined

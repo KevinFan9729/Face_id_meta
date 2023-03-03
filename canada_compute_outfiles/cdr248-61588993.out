@@ -1,0 +1,10 @@
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) libfabric/1.10.1     2) openmpi/4.0.3     3) ucx/1.8.0
+
+Traceback (most recent call last):
+  File "./main.py", line 2, in <module>
+    import modules.util as util
+  File "/scratch/endeavor/python_script_test/modules/util.py", line 2, in <module>
+    import cv2
+ModuleNotFoundError: No module named 'cv2'
