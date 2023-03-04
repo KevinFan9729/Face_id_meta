@@ -45,6 +45,10 @@ siamese_network.compile(loss= loss.loss(1), optimizer=tf.keras.optimizers.Adam(l
                     metrics=["accuracy"])
 
 checkpoint_path = os.path.join(home, 'checkpoints')
+
+# Loads the weights
+siamese_network.load_weights(checkpoint_path)
+
 checkpoint = ModelCheckpoint(checkpoint_path, monitor='val_accuracy', 
                              verbose=1, save_best_only=True, mode='max')
 early_callback=tf.keras.callbacks.EarlyStopping(monitor="val_accuracy",patience=35, restore_best_weights=True)
