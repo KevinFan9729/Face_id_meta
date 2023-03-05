@@ -2,4 +2,9 @@ data_all/
 data_train_valset/
 data_testset/
 canada_compute_results/small_data_3hrs/checkpoints/
-canada_compute_results/full_data_3hrs
+canada_compute_results/full_data_3hrs/checkpoints/
+canada_compute_results/full_data_3hrs/data_testset/
+canada_compute_results/full_data_3hrs/modules/
+canada_compute_results/full_data_6hrs/checkpoints/
+canada_compute_results/full_data_6hrs/data_testset/
+canada_compute_results/full_data_6hrs/modules/
