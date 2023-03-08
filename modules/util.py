@@ -37,6 +37,26 @@ def scale_back(img, size=IMAGE_DIMS):
   # cv2.waitKey(0)
   return mask
 
+def mse(img1, img2):
+    assert img1.shape == img2.shape
+    err = np.sum((img1.astype("float") - img2.astype("float")) ** 2)
+    err /= float(img1.shape[0] * img1.shape[1])
+	# return the MSE, the lower the error, the more "similar"
+	# the two images are
+    return err
+
+def get_min_mse_img_in_cls_path(img1_path,class_path):
+    img1 = preprocess(img=cv2.imread(img1_path))
+    mse_tuple = []
+    for img2_path in os.listdir(class_path):
+        img2_path = os.path.join(class_path,img2_path)
+        if img2_path != img1_path:
+            img2 = preprocess(img=cv2.imread(img2_path))
+            mse_diff = mse(img1=img1,img2=img2)
+            mse_tuple.append((img2_path,mse_diff))
+
+    return min(mse_tuple,key=lambda x:x[1])[0]
+
 
 def make_pairs(data_path, pairs, classes):#makes pairs of data
     # global pairs, classes, labels
@@ -47,9 +67,8 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
         class_path = os.path.join(data_path, class_)
         for img_path in os.listdir(class_path):
             if np.random.uniform()<=0.25:#rescale images
-                image1 = os.path.join(class_path, img_path)
-                image_select=random.choice(os.listdir(class_path))
-                image2 = os.path.join(class_path, image_select)
+                image1_path = os.path.join(class_path, img_path)
+                image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
                 scale = np.random.uniform(0.3,0.6)#scaling factor
                 select_index = random.choice([1,2])
                 if select_index==1:
@@ -60,14 +79,13 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
                     s2=int(scale*IMAGE_DIMS)#scale down
                     s1 = IMAGE_DIMS
                     scale_flag=2
-                pairs+=[[image1, image2, 0, s1, s2]]#smae class
+                pairs+=[[image1_path, image2_path, 0, s1, s2]]#smae class
 
                 class_select = random.choice(classes)
                 while class_select == class_:# keep trying if select the current class
                     class_select = random.choice(classes)
                 class_path2 = os.path.join(data_path, class_select)
-                image_select=random.choice(os.listdir(class_path2))
-                image2 = os.path.join(class_path2, image_select)
+                image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
                 if scale_flag ==1:
                     s1 = IMAGE_DIMS
                     if np.random.uniform()<0.5:
@@ -84,23 +102,21 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
                             s2=int(scale*IMAGE_DIMS)#scale down
                             s1 = IMAGE_DIMS
                 scale_flag=0
-                pairs+=[[image1, image2, 1, s1, s2]]#different class
+                pairs+=[[image1_path, image2_path, 1, s1, s2]]#different class
 
-            image1 = os.path.join(class_path, img_path)
-            image_select=random.choice(os.listdir(class_path))
-            image2 = os.path.join(class_path, image_select)
+            image1_path = os.path.join(class_path, img_path)
+            image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
             # image1=preprocess(image1)
             # image2=preprocess(image2)
-            pairs+=[[image1, image2, 0, IMAGE_DIMS, IMAGE_DIMS]]#same class
+            pairs+=[[image1_path, image2_path, 0, IMAGE_DIMS, IMAGE_DIMS]]#same class
 
 
             class_select = random.choice(classes)
             while class_select == class_:# keep trying if select the current class
                 class_select = random.choice(classes)
             class_path2 = os.path.join(data_path, class_select)
-            image_select=random.choice(os.listdir(class_path2))
-            image2 = os.path.join(class_path2, image_select)
+            image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
             # image2=preprocess(image2)
-            pairs+=[[image1, image2, 1, IMAGE_DIMS, IMAGE_DIMS]]#different class
+            pairs+=[[image1_path, image2_path, 1, IMAGE_DIMS, IMAGE_DIMS]]#different class
 
 
