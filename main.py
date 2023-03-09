@@ -3,7 +3,7 @@ import modules.util as util
 import math
 import numpy as np
 import modules.datagenerator as dtgen
-import modules.network as network
+import modules.network_PoolerCLS as network
 import modules.loss as loss
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint

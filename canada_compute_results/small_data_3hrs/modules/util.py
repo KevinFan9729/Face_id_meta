@@ -43,6 +43,10 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
     # pairs = np.array(pairs).astype("float32")
     # labels = np.array(labels).astype("float32")
     # pairs = []
+
+    random.seed(15)#fixed random state 
+    np.random.seed(15)
+
     for class_ in classes:
         class_path = os.path.join(data_path, class_)
         for img_path in os.listdir(class_path):
