@@ -47,7 +47,7 @@ siamese_network.compile(loss= loss.loss(1), optimizer=tf.keras.optimizers.Adam(l
 checkpoint_path = os.path.join(home, 'checkpoints')
 
 # Loads the weights
-siamese_network.load_weights(checkpoint_path)
+# siamese_network.load_weights(checkpoint_path)
 
 checkpoint = ModelCheckpoint(checkpoint_path, monitor='val_accuracy', 
                              verbose=1, save_best_only=True, mode='max')
