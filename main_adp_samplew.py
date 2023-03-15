@@ -65,7 +65,7 @@ for epoch in range(0,epochs):
     if epoch % 10 == 1:
         pred = siamese_network.predict(train_generator)
         for index in train_generator.indexes:
-            shuffled_ytrue = shuffled_ytrue.append(train_generator.labels[index][2])
+            shuffled_ytrue.append(train_generator.labels[index][2])
         for i in range(0,len(shuffled_ytrue)):
             if shuffled_ytrue[i] == pred[i]:
                 train_generator.labels[train_generator.indexes[i]][-1] = 1
