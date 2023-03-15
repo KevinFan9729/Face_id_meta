@@ -61,7 +61,7 @@ for epoch in range(0,epochs):
         opt.learning_rate.assign(lr)
     
     history = siamese_network.fit_generator(train_generator, validation_data=val_generator, epochs=1)
-    if epoch % 10 == 1:
+    if epoch % 10 == 0:
         pred = siamese_network.predict(train_generator)
         shuffled_ytrue = []
         for index in train_generator.indexes:
@@ -74,8 +74,8 @@ for epoch in range(0,epochs):
                 train_generator.labels[train_generator.indexes[i]][-1] = 1.25
 
     if (epoch == 0):
-        print(type(history))
-        print(history)
+        # print(type(history))
+        # print(history)
         print(history.history.keys())
         print(f'Validation list: {history.history["val_accuracy"]}')
         best_val = history.history["val_accuracy"][-1]
