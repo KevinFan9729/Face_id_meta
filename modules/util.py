@@ -45,17 +45,25 @@ def mse(img1, img2):
 	# the two images are
     return err
 
-def get_min_mse_img_in_cls_path(img1_path,class_path):
+def get_small_mse_img_in_cls_path(img1_path,class_path):
+    """
+    calculates all the mse difference between img1_path and other images in the class path
+    keep the lowest 5 mse difference images and randomly return 1 of them
+    """
     img1 = preprocess(img=cv2.imread(img1_path))
-    mse_tuple = []
+    lowest_5_mse_tuple = [] * 5
     for img2_path in os.listdir(class_path):
         img2_path = os.path.join(class_path,img2_path)
         if img2_path != img1_path:
             img2 = preprocess(img=cv2.imread(img2_path))
             mse_diff = mse(img1=img1,img2=img2)
-            mse_tuple.append((img2_path,mse_diff))
-
-    return min(mse_tuple,key=lambda x:x[1])[0]
+            lowest_5_mse_tuple.append((img2_path,mse_diff))
+            if len(lowest_5_mse_tuple) > 5:
+                lowest_5_mse_tuple.sort(key=lambda x:x[1])
+                del lowest_5_mse_tuple[-1]
+                assert len(lowest_5_mse_tuple) == 5, "length of the tuple have to be 5"
+    assert len(lowest_5_mse_tuple) <= 5, "length of the tuple have to less or equal to 5"
+    return random.choice(lowest_5_mse_tuple)[0]
 
 
 def make_pairs(data_path, pairs, classes):#makes pairs of data
@@ -68,7 +76,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
         for img_path in os.listdir(class_path):
             if np.random.uniform()<=0.25:#rescale images
                 image1_path = os.path.join(class_path, img_path)
-                image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
+                image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
                 scale = np.random.uniform(0.3,0.6)#scaling factor
                 select_index = random.choice([1,2])
                 if select_index==1:
@@ -85,7 +93,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
                 while class_select == class_:# keep trying if select the current class
                     class_select = random.choice(classes)
                 class_path2 = os.path.join(data_path, class_select)
-                image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
+                image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
                 if scale_flag ==1:
                     s1 = IMAGE_DIMS
                     if np.random.uniform()<0.5:
@@ -105,7 +113,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
                 pairs+=[[image1_path, image2_path, 1, s1, s2]]#different class
 
             image1_path = os.path.join(class_path, img_path)
-            image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
+            image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
             # image1=preprocess(image1)
             # image2=preprocess(image2)
             pairs+=[[image1_path, image2_path, 0, IMAGE_DIMS, IMAGE_DIMS]]#same class
@@ -115,7 +123,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
             while class_select == class_:# keep trying if select the current class
                 class_select = random.choice(classes)
             class_path2 = os.path.join(data_path, class_select)
-            image2_path = get_min_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
+            image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
             # image2=preprocess(image2)
             pairs+=[[image1_path, image2_path, 1, IMAGE_DIMS, IMAGE_DIMS]]#different class
 
