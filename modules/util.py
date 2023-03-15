@@ -1,8 +1,11 @@
-import numpy as np
-import cv2
-import random
 import os
+import random
 
+import cv2
+import numpy as np
+
+random.seed(12345)
+np.random.seed(12345)
 IMAGE_DIMS = 224
 
 def preprocess(img, size=IMAGE_DIMS, interpolation =cv2.INTER_AREA):
