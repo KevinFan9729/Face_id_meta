@@ -3,6 +3,7 @@ import random
 
 import cv2
 import numpy as np
+from skimage.metrics import structural_similarity as ssim
 
 random.seed(12345)
 np.random.seed(12345)
@@ -67,6 +68,28 @@ def get_small_mse_img_in_cls_path(img1_path,class_path):
                 assert len(lowest_5_mse_tuple) == 5, "length of the tuple have to be 5"
     assert len(lowest_5_mse_tuple) <= 5, "length of the tuple have to less or equal to 5"
     return random.choice(lowest_5_mse_tuple)[0]
+
+def get_high_ssim_img_in_cls_path(img1_path,class_path):
+    """
+    calculates all the mssim difference between img1_path and other images in the class path
+    keep the highest 5 mse difference images and randomly return 1 of them
+    """
+    img1 = preprocess(img=cv2.imread(img1_path))
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    highest_5_ssim_tuple = [] * 5
+    for img2_path in os.listdir(class_path):
+        img2_path = os.path.join(class_path,img2_path)
+        if img2_path != img1_path:
+            img2 = preprocess(img=cv2.imread(img2_path))
+            img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+            ssmi = ssim(img1,img2)
+            highest_5_ssim_tuple.append((img2_path,ssmi))
+            if len(highest_5_ssim_tuple) > 5:
+                highest_5_ssim_tuple.sort(key=lambda x:x[1],reverse=True)
+                del highest_5_ssim_tuple[-1]#drop the lowest score
+                assert len(highest_5_ssim_tuple) == 5, "length of the tuple have to be 5"
+    assert len(highest_5_ssim_tuple) <= 5, "length of the tuple have to less or equal to 5"
+    return random.choice(highest_5_ssim_tuple)[0]
 
 
 def make_pairs(data_path, pairs, classes):#makes pairs of data
