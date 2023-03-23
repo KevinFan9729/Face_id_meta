@@ -22,7 +22,7 @@ util.make_pairs(data_path, pairs, classes)
 t2 = datetime.now()
 print("time difference: ", t2 - t1)
 
-output_file = open('difficult_pairs.txt', 'w')
+output_file = open('difficult_pairs_ssim.txt', 'w')
 for pair in pairs:
     output_file.write(pair[0] + ',' + pair[1] + '\n')
 

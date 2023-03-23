@@ -102,7 +102,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
         for img_path in os.listdir(class_path):
             if np.random.uniform()<=0.25:#rescale images
                 image1_path = os.path.join(class_path, img_path)
-                image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
+                image2_path = get_high_ssim_img_in_cls_path(img1_path=image1_path,class_path=class_path)
                 scale = np.random.uniform(0.3,0.6)#scaling factor
                 select_index = random.choice([1,2])
                 if select_index==1:
@@ -119,7 +119,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
                 while class_select == class_:# keep trying if select the current class
                     class_select = random.choice(classes)
                 class_path2 = os.path.join(data_path, class_select)
-                image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
+                image2_path = get_high_ssim_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
                 if scale_flag ==1:
                     s1 = IMAGE_DIMS
                     if np.random.uniform()<0.5:
@@ -139,7 +139,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
                 pairs+=[[image1_path, image2_path, 1, s1, s2]]#different class
 
             image1_path = os.path.join(class_path, img_path)
-            image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path)
+            image2_path = get_high_ssim_img_in_cls_path(img1_path=image1_path,class_path=class_path)
             # image1=preprocess(image1)
             # image2=preprocess(image2)
             pairs+=[[image1_path, image2_path, 0, IMAGE_DIMS, IMAGE_DIMS]]#same class
@@ -149,7 +149,7 @@ def make_pairs(data_path, pairs, classes):#makes pairs of data
             while class_select == class_:# keep trying if select the current class
                 class_select = random.choice(classes)
             class_path2 = os.path.join(data_path, class_select)
-            image2_path = get_small_mse_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
+            image2_path = get_high_ssim_img_in_cls_path(img1_path=image1_path,class_path=class_path2)
             # image2=preprocess(image2)
             pairs+=[[image1_path, image2_path, 1, IMAGE_DIMS, IMAGE_DIMS]]#different class
 
