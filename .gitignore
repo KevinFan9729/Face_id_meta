@@ -9,3 +9,4 @@ canada_compute_results/full_data_6hrs/checkpoints/
 canada_compute_results/full_data_6hrs/data_testset/
 canada_compute_results/full_data_6hrs/modules/
 *.pyc
+modules/__pycache__/
